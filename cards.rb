@@ -13,7 +13,7 @@ class Cards
     @deck = []
     SUITS.each do |suit|
       CARDS.each do |card|
-        @deck << [suit, card]
+        @deck << {suit: suit, card: card]
       end
     end
     
@@ -21,31 +21,45 @@ class Cards
     nil
   end
   
-  def deal(number = 1)
-    cards_dealt = []
-    number.times { cards_dealt.push(@deck.pop) }
-    cards_dealt
+  def deal(number = 1, hand)
+    number.times { hand.push(@deck.pop) }
   end
   
   # takes an array of cards of the form [[card1, suit1], [card2, suit2] ...]
   # returns the value of the hand in Blackjack points
   # treats aces high
-  def self.minimum_value(hand)
+
+  def self.soft_value(hand)
+    total = hard_value(hand)
+    aces = ace_count(hand)
+
+    aces.times { total += 10 if total <= 11 }
+
+    end
+  end
+
+  def self.hard_value(hand)
     total = 0
+
     hand.each do |card|
-      card[0] = suit
-      card[1] = card
-      
-      if card.to_i > 0
-        total += card.to_i
-      elsif card == "A"
+      if card[:card] == "A"
         total += 1
-      else #KQJ
+      elsif card[:card].to_i > 0 #only 2-10 cards
+        total += card[:card].to_i
+      else
         total += 10
       end
     end
+
+    total
   end
-  
-  
+
+  private
+
+  def ace_count(hand)
+    num_aces = 0
+    hand.each do { num_aces += 1 if card[:card] == "A" }
+    num_aces
+  end
 
 end

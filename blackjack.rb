@@ -16,9 +16,9 @@ class Blackjack
     until both_stay? || blackjack? do
       
       render_cards
-      player.take_turn
+      @player1.take_turn
       break if bust?
-      dealer.take_turn
+      @dealer.take_turn
       break if bust?
     end
     
@@ -27,18 +27,25 @@ class Blackjack
     #determine winnings
   end
   
+  private
+
+  def render_cards
+    Cards.render(@player1, @dealer1)
+  end
   
   def find_winners
   end
   
   def both_stay?
+    @player1.stay? || @dealer.stay?
   end
   
   def blackjack?
-
+    @player1.blackjack? || @dealer.blackjack?
   end
   
   def bust?
+    @player1.bust? || @dealer.bust?
   end
   
 end
