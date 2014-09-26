@@ -42,9 +42,13 @@ class Blackjack
   def find_winners
     winner = nil
     winner = @dealer.hard_value > @player1.hard_value ? "Dealer" : "Player"
-    winner = "Dealer" if @player1.bust?
-    winner = "Player 1" if @dealer.bust?
-
+   if @player1.bust?
+      winner = "Dealer"
+      puts "Player 1 BUSTS!"
+    elsif @dealer.bust?
+      winner = "Player 1"
+      puts "Dealer busts!"
+    end
     puts "BLACKJACK!" if blackjack?
     puts "#{winner} wins!!!"
   end
