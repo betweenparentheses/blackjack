@@ -14,16 +14,10 @@ class Blackjack
     puts `clear`
     player = @player1
     
-    #TODO: rewrite so each player goes through whole cycle of hits befor enext
-    until both_stay? || blackjack? do
+    render_showing
+    @player1.take_turn
+    @dealer.take_turn
 
-      render_showing
-      @player1.take_turn
-      break if bust?
-      @dealer.take_turn
-      break if bust?
-    end
-    
     render_everything
     find_winners
     #determine winnings
