@@ -8,15 +8,15 @@ class Player
   end
 
   def take_turn
-    move = get_move
-    case move
+    until bust? || stay? || blackjack? do
+      move = get_move
+      case move
       when 'h'
         hit
       when 's'
         stay
-      else
-        p "wtf broken"
       end
+    end
   end
 
   def get_move
@@ -54,6 +54,7 @@ class Player
 
   def hit
     deal_cards(1)
+    puts "YOUR HAND:\n#{visible_cards}\n"
   end
 
   def stay
