@@ -15,9 +15,12 @@ class Blackjack
     player = @player1
     
     render_showing
-    @player1.take_turn
-    @dealer.take_turn
-
+    
+    unless blackjack?
+      @player1.take_turn
+      @dealer.take_turn
+    end
+    
     render_everything
     find_winners
     #determine winnings
@@ -42,7 +45,7 @@ class Blackjack
     winner = "Dealer" if @player1.bust?
     winner = "Player 1" if @dealer.bust?
 
-  
+    puts "BLACKJACK!" if blackjack?
     puts "#{winner} wins!!!"
   end
   
