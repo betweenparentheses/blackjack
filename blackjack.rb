@@ -1,6 +1,6 @@
-require 'player'
-require 'cards'
-require 'dealer'
+require './cards'
+require './player'
+require './dealer'
 
 class Blackjack
   
@@ -11,33 +11,49 @@ class Blackjack
   end
   
   def play_hand
+    puts `clear`
     player = @player1
     
+    #TODO: rewrite so each player goes through whole cycle of hits befor enext
     until both_stay? || blackjack? do
-      
-      render_cards
+
+      render_showing
       @player1.take_turn
       break if bust?
       @dealer.take_turn
       break if bust?
     end
     
-    render_cards
+    render_everything
     find_winners
     #determine winnings
   end
   
   private
 
-  def render_cards
-    Cards.render(@player1, @dealer1)
+  def render_showing
+    puts "DEALER showing:\n#{@dealer.visible_cards}\n"
+    puts "YOUR HAND:\n#{@player1.visible_cards}\n"
+  end
+
+  def render_everything
+    puts "DEALER'S FULL HAND:\n#{@dealer.all_cards}\n"
+    puts "YOUR HAND:\n#{@player1.visible_cards}\n"
+    puts "Dealer total: #{@dealer.hard_value} vs your total: #{@player1.hard_value}"
   end
   
   def find_winners
+    winner = nil
+    winner = @dealer.hard_value > @player1.hard_value ? "Dealer" : "Player"
+    winner = "Dealer" if @player1.bust?
+    winner = "Player 1" if @dealer.bust?
+
+  
+    puts "#{winner} wins!!!"
   end
   
   def both_stay?
-    @player1.stay? || @dealer.stay?
+    @player1.stay? && @dealer.stay?
   end
   
   def blackjack?
@@ -49,3 +65,7 @@ class Blackjack
   end
   
 end
+
+b = Blackjack.new
+
+b.play_hand

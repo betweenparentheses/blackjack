@@ -1,9 +1,8 @@
 class Cards
-
+  CARDS = ["A","2","3","4","5","6","7","8","9","10","J","Q","K"]
+  SUITS = ["Hearts", "Diamonds", "Clubs", "Spades"]
 
   def initialize
-    CARDS = ["A","2","3","4","5","6","7","8","9","10","J","Q","K"]
-    SUITS = ["Hearts", "Diamonds", "Clubs", "Spades"]
     @deck = []
     shuffle_deck
   end
@@ -13,7 +12,7 @@ class Cards
     @deck = []
     SUITS.each do |suit|
       CARDS.each do |card|
-        @deck << {suit: suit, card: card]
+        @deck << {suit: suit, card: card}
       end
     end
     
@@ -34,8 +33,7 @@ class Cards
     aces = ace_count(hand)
 
     aces.times { total += 10 if total <= 11 }
-
-    end
+    total
   end
 
   def self.hard_value(hand)
@@ -54,11 +52,19 @@ class Cards
     total
   end
 
+  def self.render(hand)
+    hand_string = ""
+    hand.each do |card|
+      hand_string << "#{card[:card]} of #{card[:suit].to_s}\n"
+    end
+    hand_string
+  end
+
   private
 
-  def ace_count(hand)
+  def self.ace_count(hand)
     num_aces = 0
-    hand.each do { num_aces += 1 if card[:card] == "A" }
+    hand.each { |card| num_aces += 1 if card[:card] == "A" }
     num_aces
   end
 
